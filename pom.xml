@@ -72,7 +72,7 @@
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-mqtt</artifactId>
             <version>${apache.storm.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>
