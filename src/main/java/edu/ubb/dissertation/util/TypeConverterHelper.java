@@ -3,7 +3,6 @@ package edu.ubb.dissertation.util;
 import io.vavr.control.Try;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ public class TypeConverterHelper {
     }
 
     public static Object convertToJsonObject(final String message, final Consumer<? super Throwable> failureAction) {
-        return Try.of(() -> new JSONParser().parse(message))
+        return Try.of(() -> new JSONObject(message))
                 .onFailure(failureAction)
                 .getOrElseGet(e -> new JSONObject());
     }

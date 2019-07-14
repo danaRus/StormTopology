@@ -37,8 +37,8 @@ public class DataProcessorBolt extends BaseRichBolt {
     private OutputCollector collector;
 
     @Override
-    public void prepare(final Map<String, Object> topoConf, final TopologyContext context, final OutputCollector collector) {
-        this.collector = collector;
+    public void prepare(final Map map, final TopologyContext topologyContext, final OutputCollector outputCollector) {
+        this.collector = outputCollector;
     }
 
     @Override

@@ -27,7 +27,7 @@ public class CassandraWriterBolt extends BaseRichBolt {
     private MergedDataRepository mergedDataRepository;
 
     @Override
-    public void prepare(final Map<String, Object> topoConf, final TopologyContext context, final OutputCollector collector) {
+    public void prepare(final Map map, final TopologyContext topologyContext, final OutputCollector outputCollector) {
         initializeCassandraConnection();
     }
 
