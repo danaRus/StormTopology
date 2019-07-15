@@ -1,6 +1,7 @@
 package edu.ubb.dissertation.util;
 
 import io.vavr.control.Try;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -56,11 +57,17 @@ public class TypeConverterHelper {
 
     public static Optional<LocalDateTime> extractTimestamp(final JSONObject json, final String key) {
         final String timestampAsString = extractString(json, key);
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss");
+        final DateTimeFormatter formatter = createFormatter(timestampAsString);
         return Try.of(() -> LocalDateTime.parse(timestampAsString, formatter))
                 .onFailure(t -> LOGGER.error("Could not parse timestamp. StackTrace: {}", getStackTraceAsList(t)))
                 .map(Optional::ofNullable)
                 .getOrElseGet(t -> Optional.empty());
+    }
+
+    private static DateTimeFormatter createFormatter(final String timestampAsString) {
+        return StringUtils.countMatches(timestampAsString, ":") == 1
+                ? DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+                : DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     }
 
     public static Optional<LocalDateTime> extractTimestampFromEpoch(final JSONObject json, final String key) {
