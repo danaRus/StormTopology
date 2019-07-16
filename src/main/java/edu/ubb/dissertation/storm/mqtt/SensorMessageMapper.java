@@ -22,7 +22,7 @@ public class SensorMessageMapper implements MessageMapper {
 
     @Override
     public Values extractValues(final JSONObject json) {
-        // the timestamp from the sensor is sent as millis since the Unix Start Time
+        // the timestamp from the sensor is sent as seconds since the Unix Start Time
         return extractTimestampFromEpoch(json, TIMESTAMP_KEY)
                 .map(timestamp -> extractValues(json, timestamp))
                 .orElseGet(this::createEmptyValues);

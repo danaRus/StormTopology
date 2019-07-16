@@ -20,7 +20,7 @@ public class CassandraWriterBolt extends BaseRichBolt {
     private static Logger LOGGER = LoggerFactory.getLogger(CassandraWriterBolt.class);
 
     private static final String ADDRESS = "localhost";
-    private static final int PORT_NUMBER = 9160;
+    private static final int PORT_NUMBER = 9042;
 
     private CassandraConnector cassandraConnector;
 

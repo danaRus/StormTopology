@@ -45,14 +45,10 @@ public class DataProcessorBolt extends BaseRichBolt {
     public void execute(final Tuple input) {
         extractDataBySource(input);
 
-        synchronized (sensorEntries) {
-            synchronized (patientDataEntries) {
-                sensorEntries.keySet()
-                        .stream()
-                        .filter(timestamp -> patientDataEntries.keySet().contains(timestamp))
-                        .forEach(this::emitValue);
-            }
-        }
+        sensorEntries.keySet()
+                .stream()
+                .filter(timestamp -> patientDataEntries.keySet().contains(timestamp))
+                .forEach(this::emitValue);
     }
 
     @Override
@@ -61,15 +57,11 @@ public class DataProcessorBolt extends BaseRichBolt {
     }
 
     private void emitValue(final LocalDateTime timestamp) {
-        synchronized (sensorEntries) {
-            synchronized (patientDataEntries) {
-                final MergedData mergedData = new MergedData.Builder()
-                        .withSensorData(sensorEntries.remove(timestamp))
-                        .withPatientData(patientDataEntries.remove(timestamp))
-                        .build();
-                collector.emit(new Values(mergedData));
-            }
-        }
+        final MergedData mergedData = new MergedData.Builder()
+                .withSensorData(sensorEntries.remove(timestamp))
+                .withPatientData(patientDataEntries.remove(timestamp))
+                .build();
+        collector.emit(new Values(mergedData));
     }
 
     private void extractDataBySource(final Tuple input) {

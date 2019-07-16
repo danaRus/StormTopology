@@ -13,6 +13,7 @@ import org.apache.storm.Config;
 import org.apache.storm.StormSubmitter;
 import org.apache.storm.mqtt.spout.MqttSpout;
 import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.tuple.Fields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     private static final String SENSOR_DATA_TOPIC_NAME = "dissertation/sensor_data";
-    private static final String PATIENT_DATA_TOPIC_NAME = "dissertation/patient_data";
+    private static final String PATIENT_DATA_TOPIC_NAME = "dissertation/patient_data1";
 
     public static void main(final String[] args) {
         final Config stormConfig = new Config();
@@ -37,14 +38,14 @@ public class Application {
 
         final DataProcessorBolt dataProcessorBolt = new DataProcessorBolt();
         builder.setBolt("dataProcessorBolt", dataProcessorBolt)
-                .shuffleGrouping("sensorSpout")
-                .shuffleGrouping("patientDataSpout");
+                .fieldsGrouping("sensorSpout", new Fields("timestamp"))
+                .fieldsGrouping("patientDataSpout", new Fields("timestamp"));
 
         final CassandraWriterBolt cassandraWriterBolt = new CassandraWriterBolt();
         builder.setBolt("cassandraWriterBolt", cassandraWriterBolt)
                 .shuffleGrouping("dataProcessorBolt");
 
-        Try.run(() -> StormSubmitter.submitTopology("PatientAndSensorDataProcessor", stormConfig, builder.createTopology()))
+        Try.run(() -> StormSubmitter.submitTopology("PatientAndSensorDataProcessorV1", stormConfig, builder.createTopology()))
                 .onSuccess(v -> LOGGER.error("Storm topology started successfully."))
                 .onFailure(t -> LOGGER.error("Could not start topology. Stack Trace: {}", t.getMessage()));
     }
