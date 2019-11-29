@@ -14,7 +14,7 @@ public final class MqttUtils {
         final MqttOptions options = new MqttOptions();
         options.setTopics(Stream.of(topic).collect(Collectors.toList()));
         options.setCleanConnection(false);
-        options.setUrl("tcp://iot.eclipse.org:1883");
+        options.setUrl("tcp://mqtt.eclipse.org:1883");
         return options;
     }
 }

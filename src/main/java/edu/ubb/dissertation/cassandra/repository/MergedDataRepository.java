@@ -50,7 +50,7 @@ public class MergedDataRepository {
                 "oxygenSaturationLevelLowerLimit, bloodLossRate, systolicBloodPressureType, diastolicBloodPressureType, " +
                 "heartRateType, oxygenSaturationLevelType, patient_id, surgery_id, rotation, temperature, force, pressure, arm_id)";
         return String.format("INSERT INTO %s%s VALUES ('%s', %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, " +
-                        "%.2f, %d, %d, %d, %d, %d, '%s', %.2f, %.2f, %.2f, %.2f, '%s') USING TTL 300;",
+                        "%.2f, %d, %d, %d, %d, %d, '%s', %.2f, %.2f, %.2f, %.2f, '%s') USING TTL 30000;",
                 TABLE_NAME, columnNames,
                 Timestamp.valueOf(patientData.getTimestamp()), patientData.getSystolicBloodPressure(),
                 patientData.getSystolicBloodPressureUpperLimit(), patientData.getSystolicBloodPressureLowerLimit(),
