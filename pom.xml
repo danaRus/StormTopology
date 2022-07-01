@@ -17,7 +17,7 @@
         <cassandra-driver-core.version>3.7.1</cassandra-driver-core.version>
         <apache.commons-lang3.version>3.9</apache.commons-lang3.version>
         <net.jodah.failsafe.version>2.0.1</net.jodah.failsafe.version>
-        <org.apache.hadoop.version>2.6.0</org.apache.hadoop.version>
+        <org.apache.hadoop.version>2.7.0</org.apache.hadoop.version>
     </properties>
 
     <build>
